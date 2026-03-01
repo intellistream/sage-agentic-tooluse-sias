@@ -40,19 +40,16 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+full = [
+    "torch>=2.0.0",
+]
+
 dev = [
+    "isage-sias[full]",
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
     "ruff>=0.8.4",
     "mypy>=1.0.0",
-]
-
-torch = [
-    "torch>=2.0.0",
-]
-
-all = [
-    "isage-sias[dev,torch]",
 ]
 
 [project.urls]
