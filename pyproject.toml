@@ -42,19 +42,19 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+full = []
+
 dev = [
+    # dev includes [full] — no need for a separate extras install
+    "isage-agentic-tooluse-sias[full]",
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
     "ruff>=0.8.4",
     "mypy>=1.0.0",
 ]
 
-torch = [
-    "torch>=2.0.0",
-]
-
 all = [
-    "isage-sias[dev,torch]",
+    "isage-agentic-tooluse-sias[dev]",
 ]
 
 [project.urls]
