@@ -53,10 +53,6 @@ dev = [
     "mypy>=1.0.0",
 ]
 
-all = [
-    "isage-agentic-tooluse-sias[dev]",
-]
-
 [project.urls]
 Homepage = "https://github.com/intellistream/sage-agentic-tooluse-sias"
 Repository = "https://github.com/intellistream/sage-agentic-tooluse-sias"
