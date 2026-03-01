@@ -6,7 +6,7 @@ Core components for agent tool selection and sample importance:
 - SelectionSummary: Summary statistics for selection operations
 
 Usage:
-    from sage_agentic.sias import CoresetSelector, OnlineContinualLearner
+    from sage_sias import CoresetSelector, OnlineContinualLearner, SIASSample
 
     selector = CoresetSelector(strategy="hybrid")
     selected = selector.select(samples, target_size=1000)
@@ -15,16 +15,17 @@ Usage:
     batch = learner.update_buffer(new_samples)
 """
 
-from .coreset_selector import CoresetSelector, SelectionSummary
-from .continual_learner import OnlineContinualLearner
-from .types import ImportanceScore, SampleWithImportance
+from continual_learner import OnlineContinualLearner
+from core_types import SampleProtocol, SIASSample, wrap_sample
+from coreset_selector import CoresetSelector, SelectionSummary
 
 __all__ = [
     "CoresetSelector",
     "OnlineContinualLearner",
     "SelectionSummary",
-    "ImportanceScore",
-    "SampleWithImportance",
+    "SIASSample",
+    "SampleProtocol",
+    "wrap_sample",
 ]
 
 __version__ = "0.1.0"

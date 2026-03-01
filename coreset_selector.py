@@ -53,8 +53,7 @@ class SampleProtocol(Protocol):
         ...
 
 
-# Type alias for any sample that implements the protocol
-SampleT = Any  # Should implement SampleProtocol
+SampleT = Any  # Expected to satisfy SampleProtocol
 
 
 class CoresetSelector:
@@ -281,13 +280,20 @@ class CoresetSelector:
         return 1.0 - similarity
 
     # ------------------------------------------------------------------
-    # Sample Access Helpers (support both dict and object access)
+    # Sample Access Helpers
     # ------------------------------------------------------------------
     def _get_sample_id(self, sample: SampleT) -> str:
-        """Get sample_id from sample (supports dict or object)."""
+        """Get required sample_id from sample."""
         if isinstance(sample, dict):
-            return sample.get("sample_id", sample.get("dialog_id", str(id(sample))))
-        return getattr(sample, "sample_id", getattr(sample, "dialog_id", str(id(sample))))
+            sample_id = sample.get("sample_id")
+            if isinstance(sample_id, str) and sample_id:
+                return sample_id
+            raise ValueError("Sample dictionary must contain non-empty 'sample_id'")
+
+        sample_id = getattr(sample, "sample_id", None)
+        if isinstance(sample_id, str) and sample_id:
+            return sample_id
+        raise ValueError("Sample object must provide non-empty 'sample_id'")
 
     def _get_text(self, sample: SampleT) -> str:
         """Get text from sample (supports dict or object)."""

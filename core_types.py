@@ -65,12 +65,6 @@ class SampleProtocol(Protocol):
         ...
 
 
-# Backward compatibility alias
-# This allows existing code using ProcessedDialog to work with SIAS
-# by implementing the SampleProtocol
-Sample = SIASSample
-
-
 def wrap_sample(
     sample_id: str,
     text: str,

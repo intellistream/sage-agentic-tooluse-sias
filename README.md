@@ -21,9 +21,6 @@
 # Basic installation
 pip install isage-agentic-tooluse-sias
 
-# With PyTorch support
-pip install isage-agentic-tooluse-sias[torch]
-
 # Development installation
 pip install isage-agentic-tooluse-sias[dev]
 ```
@@ -33,20 +30,23 @@ pip install isage-agentic-tooluse-sias[dev]
 ### Continual Learning
 
 ```python
-from sage_sias import ContinualLearner
+from sage_sias import OnlineContinualLearner, SIASSample
 
 # Create continual learner
-learner = ContinualLearner(
+learner = OnlineContinualLearner(
     buffer_size=1000,
-    selection_strategy="importance"
+    replay_ratio=0.3,
 )
 
 # Add samples
-for data, label in stream:
-    learner.add_sample(data, label)
+new_samples = [
+    SIASSample(sample_id="s1", text="tool call trace A"),
+    SIASSample(sample_id="s2", text="tool call trace B"),
+]
+training_batch = learner.update_buffer(new_samples)
 
-# Get selected samples
-important_samples = learner.get_buffer()
+# Inspect replay buffer
+important_samples = learner.buffer_snapshot()
 ```
 
 ### Coreset Selection
@@ -56,12 +56,11 @@ from sage_sias import CoresetSelector
 
 # Create coreset selector
 selector = CoresetSelector(
-    target_size=100,
-    method="kmeans++"
+    strategy="hybrid",
 )
 
 # Select representative samples
-coreset = selector.select(dataset, features)
+coreset = selector.select(samples=dataset, target_size=100)
 ```
 
 ## 📚 Key Components
@@ -70,23 +69,23 @@ coreset = selector.select(dataset, features)
 
 Manages sample selection for continual learning:
 - Buffer management with importance-based eviction
-- Multiple selection strategies (random, importance, diversity)
+- Multiple selection strategies (loss_topk, diversity, hybrid, random)
 - Support for experience replay
 
 ### 2. **Coreset Selector** (`coreset_selector.py`)
 
 Selects representative subsets:
-- K-means++ based selection
+- Loss/diversity/hybrid/random selection
 - Diversity-aware sampling
 - Importance scoring
 - Support for large-scale datasets
 
-### 3. **Types** (`types.py`)
+### 3. **Core Types** (`core_types.py`)
 
 Common data types and protocols:
 - Sample representation
-- Importance scoring interfaces
-- Selection strategies
+- Sample protocol
+- Selection summary
 
 ## 🔧 Architecture
 
@@ -94,8 +93,8 @@ Common data types and protocols:
 sage_sias/
 ├── continual_learner.py    # Continual learning with buffer management
 ├── coreset_selector.py      # Coreset selection algorithms
-├── types.py                 # Common types and protocols
-└── __init__.py             # Public API exports
+├── core_types.py            # Common types and protocols
+└── __init__.py              # Public API exports
 ```
 
 ## 🎓 Use Cases
@@ -112,23 +111,24 @@ This package is part of the SAGE ecosystem but can be used independently:
 
 ```python
 # Standalone usage
-from sage_sias import ContinualLearner, CoresetSelector
+from sage_sias import OnlineContinualLearner, CoresetSelector, SIASSample
 
-# With SAGE agentic (optional)
-from sage_agentic import AgentTrainer
-from sage_sias import CoresetSelector
+learner = OnlineContinualLearner(buffer_size=2048, replay_ratio=0.25)
+selector = CoresetSelector(strategy="hybrid")
 
-trainer = AgentTrainer()
-selector = CoresetSelector(target_size=100)
-important_trajectories = selector.select(all_trajectories)
-trainer.train(important_trajectories)
+samples = [
+    SIASSample(sample_id="a", text="query weather"),
+    SIASSample(sample_id="b", text="query calendar"),
+]
+selected = selector.select(samples=samples, target_size=1)
+batch = learner.update_buffer(selected)
 ```
 
 ## 📖 Documentation
 
-- **Repository**: https://github.com/intellistream/sage-tooluse-sias
+- **Repository**: https://github.com/intellistream/sage-agentic-tooluse-sias
 - **SAGE Documentation**: https://intellistream.github.io/SAGE-Pub/
-- **Issues**: https://github.com/intellistream/sage-tooluse-sias/issues
+- **Issues**: https://github.com/intellistream/sage-agentic-tooluse-sias/issues
 
 ## 🤝 Contributing
 
