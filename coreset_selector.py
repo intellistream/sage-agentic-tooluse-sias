@@ -20,8 +20,9 @@ import math
 import random
 import re
 from collections import Counter
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Any, Optional, Protocol, Sequence, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 
 @dataclass(slots=True)
@@ -109,8 +110,8 @@ class CoresetSelector:
         self,
         samples: Sequence[SampleT],
         *,
-        target_size: Optional[int],
-        metrics: Optional[dict[str, float]] = None,
+        target_size: int | None,
+        metrics: dict[str, float] | None = None,
     ) -> list[SampleT]:
         """
         Select a subset of samples using the configured strategy.
@@ -149,7 +150,7 @@ class CoresetSelector:
         self,
         samples: Sequence[SampleT],
         target_size: int,
-        metrics: Optional[dict[str, float]],
+        metrics: dict[str, float] | None,
     ) -> list[SampleT]:
         """Select samples with highest loss/importance scores."""
 
@@ -178,7 +179,7 @@ class CoresetSelector:
         self,
         samples: Sequence[SampleT],
         target_size: int,
-        metrics: Optional[dict[str, float]],
+        metrics: dict[str, float] | None,
     ) -> list[SampleT]:
         """Hybrid selection: 60% loss-based + 40% diversity-based."""
         loss_portion = int(target_size * 0.6)

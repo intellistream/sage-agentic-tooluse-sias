@@ -11,7 +11,7 @@ This is a core component of SIAS (Streaming Importance-Aware Agent System).
 from __future__ import annotations
 
 import random
-from typing import Iterable, Optional, Sequence
+from collections.abc import Iterable, Sequence
 
 from .coreset_selector import CoresetSelector, SampleT, SelectionSummary
 
@@ -40,7 +40,7 @@ class OnlineContinualLearner:
         self,
         buffer_size: int = 2048,
         replay_ratio: float = 0.3,
-        selector: Optional[CoresetSelector] = None,
+        selector: CoresetSelector | None = None,
         random_seed: int = 17,
     ) -> None:
         """
@@ -72,7 +72,7 @@ class OnlineContinualLearner:
     def update_buffer(
         self,
         new_samples: Sequence[SampleT],
-        metrics: Optional[dict[str, float]] = None,
+        metrics: dict[str, float] | None = None,
     ) -> list[SampleT]:
         """
         Update buffer with new samples and return training batch.
@@ -125,7 +125,7 @@ class OnlineContinualLearner:
         self,
         new_batch_size: int,
         *,
-        exclude: Optional[Iterable[str]] = None,
+        exclude: Iterable[str] | None = None,
     ) -> list[SampleT]:
         """
         Sample from replay buffer.

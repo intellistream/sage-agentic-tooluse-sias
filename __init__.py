@@ -1,12 +1,12 @@
 """SIAS - Streaming Importance-Aware Agent System.
 
-Core components for agent tool selection and sample importance:
-- CoresetSelector: Importance-aware sample selection
+Core components for sample importance scoring and continual learning:
+- CoresetSelector: Importance-aware sample selection (loss_topk, diversity, hybrid)
 - OnlineContinualLearner: Experience replay with importance weighting
-- SelectionSummary: Summary statistics for selection operations
+- SelectionSummary: Statistics for selection operations
 
 Usage:
-    from sage_agentic.sias import CoresetSelector, OnlineContinualLearner
+    from sage_sias import CoresetSelector, OnlineContinualLearner, SIASSample
 
     selector = CoresetSelector(strategy="hybrid")
     selected = selector.select(samples, target_size=1000)
@@ -15,16 +15,19 @@ Usage:
     batch = learner.update_buffer(new_samples)
 """
 
-from .coreset_selector import CoresetSelector, SelectionSummary
 from .continual_learner import OnlineContinualLearner
-from .types import ImportanceScore, SampleWithImportance
+from .coreset_selector import CoresetSelector, SelectionSummary
+from .types import SIASSample, SampleProtocol, wrap_sample
 
 __all__ = [
+    # Core components
     "CoresetSelector",
     "OnlineContinualLearner",
     "SelectionSummary",
-    "ImportanceScore",
-    "SampleWithImportance",
+    # Types
+    "SIASSample",
+    "SampleProtocol",
+    "wrap_sample",
 ]
 
 __version__ = "0.1.0"
