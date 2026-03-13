@@ -59,10 +59,11 @@ Documentation = "https://github.com/intellistream/sage-sias#readme"
 "Bug Tracker" = "https://github.com/intellistream/sage-sias/issues"
 
 [tool.setuptools]
-packages = ["sage_sias"]
+package-dir = {"" = "src"}
 
-[tool.setuptools.package-dir]
-sage_sias = "."
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["sage_sias*"]
 
 [tool.ruff]
 line-length = 100

@@ -20,11 +20,9 @@ from .coreset_selector import CoresetSelector, SelectionSummary
 from .types import SIASSample, SampleProtocol, wrap_sample
 
 __all__ = [
-    # Core components
     "CoresetSelector",
     "OnlineContinualLearner",
     "SelectionSummary",
-    # Types
     "SIASSample",
     "SampleProtocol",
     "wrap_sample",
