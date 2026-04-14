@@ -34,9 +34,6 @@ class SampleProtocol(Protocol):
     def metadata(self) -> dict[str, Any]: ...
 
 
-Sample = SIASSample
-
-
 def wrap_sample(
     sample_id: str,
     text: str,

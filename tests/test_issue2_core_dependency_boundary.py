@@ -13,20 +13,28 @@ def _repo_root() -> Path:
     return Path(__file__).resolve().parents[1]
 
 
+def _src_pkg() -> Path:
+    return _repo_root() / "src" / "sage_sias"
+
+
 def test_no_compatibility_alias_in_core_types_module() -> None:
-    content = (_repo_root() / "core_types.py").read_text(encoding="utf-8")
+    content = (_src_pkg() / "types.py").read_text(encoding="utf-8")
 
     assert "Sample = SIASSample" not in content
     assert "Backward compatibility alias" not in content
 
 
-def test_legacy_types_module_removed() -> None:
+def test_legacy_root_modules_removed() -> None:
+    assert not (_repo_root() / "core_types.py").exists()
+    assert not (_repo_root() / "continual_learner.py").exists()
+    assert not (_repo_root() / "coreset_selector.py").exists()
+    assert not (_repo_root() / "__init__.py").exists()
     assert not (_repo_root() / "types.py").exists()
 
 
 def test_no_dialog_id_fallback_in_core_modules() -> None:
-    coreset = (_repo_root() / "coreset_selector.py").read_text(encoding="utf-8")
-    learner = (_repo_root() / "continual_learner.py").read_text(encoding="utf-8")
+    coreset = (_src_pkg() / "coreset_selector.py").read_text(encoding="utf-8")
+    learner = (_src_pkg() / "continual_learner.py").read_text(encoding="utf-8")
 
     assert "dialog_id" not in coreset
     assert "dialog_id" not in learner

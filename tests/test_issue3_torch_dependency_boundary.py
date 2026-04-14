@@ -9,14 +9,18 @@ def _repo_root() -> Path:
     return Path(__file__).resolve().parents[1]
 
 
+def _src_pkg() -> Path:
+    return _repo_root() / "src" / "sage_sias"
+
+
 def test_no_torch_imports_in_python_modules() -> None:
-    root = _repo_root()
+    src_pkg = _src_pkg()
 
     python_files = [
-        root / "__init__.py",
-        root / "continual_learner.py",
-        root / "core_types.py",
-        root / "coreset_selector.py",
+        src_pkg / "__init__.py",
+        src_pkg / "continual_learner.py",
+        src_pkg / "types.py",
+        src_pkg / "coreset_selector.py",
     ]
 
     for file_path in python_files:

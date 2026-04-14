@@ -16,13 +16,39 @@ Usage:
 """
 
 from .continual_learner import OnlineContinualLearner
+from .contract import SIAS_CONTRACT_VERSION, SIASConfig, run_selection_contract
 from .coreset_selector import CoresetSelector, SelectionSummary
+from .experiment_framework import (
+    ContinualPhase,
+    ExperimentSample,
+    ManifestRecord,
+    RealBenchmarkConfig,
+    build_continual_phases,
+    load_real_dataset,
+    materialize_real_benchmark,
+)
+from .importance_scorer import ImportanceScoreBreakdown, ImportanceScorer, ImportanceWeights
+from .integration import select_samples_for_agentic_tooluse
 from .types import SIASSample, SampleProtocol, wrap_sample
 
 __all__ = [
     "CoresetSelector",
+    "ContinualPhase",
+    "ExperimentSample",
+    "ImportanceScorer",
+    "ImportanceWeights",
+    "ImportanceScoreBreakdown",
+    "ManifestRecord",
     "OnlineContinualLearner",
+    "RealBenchmarkConfig",
     "SelectionSummary",
+    "SIASConfig",
+    "SIAS_CONTRACT_VERSION",
+    "build_continual_phases",
+    "load_real_dataset",
+    "materialize_real_benchmark",
+    "run_selection_contract",
+    "select_samples_for_agentic_tooluse",
     "SIASSample",
     "SampleProtocol",
     "wrap_sample",

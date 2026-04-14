@@ -7,16 +7,17 @@ from pathlib import Path
 
 def _bootstrap_package() -> None:
     repo_root = Path(__file__).resolve().parents[1]
-    if str(repo_root) not in sys.path:
-        sys.path.insert(0, str(repo_root))
+    src_root = repo_root / "src"
+    if str(src_root) not in sys.path:
+        sys.path.insert(0, str(src_root))
 
     if "sage_sias" in sys.modules:
         return
 
     spec = importlib.util.spec_from_file_location(
         "sage_sias",
-        repo_root / "__init__.py",
-        submodule_search_locations=[str(repo_root)],
+        src_root / "sage_sias" / "__init__.py",
+        submodule_search_locations=[str(src_root / "sage_sias")],
     )
     if spec is None or spec.loader is None:
         raise RuntimeError("Failed to initialize sage_sias package for tests")

@@ -34,18 +34,10 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
-dependencies = [
-    "numpy>=1.20.0",
-    "typing-extensions>=4.0.0",
-]
+dependencies = []
 
 [project.optional-dependencies]
-full = [
-    "torch>=2.0.0",
-]
-
 dev = [
-    "isage-sias[full]",
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
     "ruff>=0.8.4",
@@ -53,10 +45,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/intellistream/sage-sias"
-Repository = "https://github.com/intellistream/sage-sias"
-Documentation = "https://github.com/intellistream/sage-sias#readme"
-"Bug Tracker" = "https://github.com/intellistream/sage-sias/issues"
+Homepage = "https://github.com/intellistream/sage-agentic-tooluse-sias"
+Repository = "https://github.com/intellistream/sage-agentic-tooluse-sias"
+Documentation = "https://github.com/intellistream/sage-agentic-tooluse-sias#readme"
+"Bug Tracker" = "https://github.com/intellistream/sage-agentic-tooluse-sias/issues"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
